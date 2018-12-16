@@ -15,6 +15,15 @@ int main()
 	}
 	background.setSmooth(true);
 
+	if (!sf::Shader::isAvailable())
+	{
+		// shaders are not available...
+		std::cout << "Shaders not available" << std::endl;
+		return -1;
+	}
+
+	sf::Shader shader;
+	shader.loadFromFile("fragmentShader");
 	sf::RectangleShape rect;
 	rect.setSize(sf::Vector2f( background.getSize() ));
 	rect.setTexture(&background);
