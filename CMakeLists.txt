@@ -8,13 +8,26 @@ project (shaders_project CXX)
 #file globing
 file(GLOB_RECURSE sources src/*.cpp src/*.h)
 file(GLOB_RECURSE data resources/*)
+file(GLOB_RECURSE shader_files src/*.frag src/*.vert)
 
 add_executable(shaders ${sources})
 
-#copy resources to build directory
+#copy resources to build/resources
 file(COPY ${data} DESTINATION resources)
-
+#copy shader files to build directory
+#foreach(shaderFile ${shader_files})
+	#add_custom_command(
+		#TARGET shaders PRE_BUILD
+		#COMMAND ${CMAKE_COMMAND} -E create_symlink
+		#${shaderFile}
+		#${CMAKE_CURRENT_BINARY_DIR})
+#endforeach()
 #armadillo library
+add_custom_command(
+	TARGET shaders PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -E create_symlink
+	${CMAKE_SOURCE_DIR}/src/fragment_shader.frag
+	${CMAKE_CURRENT_BINARY_DIR}/fragment_shader.frag)
 find_package(Armadillo REQUIRED)
 
 #include the necessary libraries

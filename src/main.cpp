@@ -23,13 +23,18 @@ int main()
 	}
 
 	sf::Shader shader;
-	shader.loadFromFile("fragmentShader");
+	if(!shader.loadFromFile("fragment_shader.frag", sf::Shader::Fragment)){
+		std::cout << "Coulnd't load shader" << std::endl;
+		return -1;
+	}
 	sf::RectangleShape rect;
 	rect.setSize(sf::Vector2f( background.getSize() ));
 	rect.setTexture(&background);
 	sf::View view;
+	sf::Clock time;
 	while (window.isOpen())
 	{
+		float curr_time = time.getElapsedTime().asSeconds();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -51,8 +56,10 @@ int main()
 			}
 		}
 
+		shader.setUniform("time", curr_time);
+		shader.setUniform("u_resolution", sf::Vector2f( window.getSize() ));
 		window.clear();
-		window.draw(rect);
+		window.draw(rect, &shader);
 		window.display();
 	}
 }
