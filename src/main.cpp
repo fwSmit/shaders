@@ -51,6 +51,13 @@ int main()
 					view = sf::View(visibleArea);
 					window.setView(view);
 				}
+				case sf::Event::KeyPressed:
+					if(event.key.code == sf::Keyboard::R){
+						if(!shader.loadFromFile("fragment_shader.frag", sf::Shader::Fragment)){
+							std::cout << "Coulnd't reload shader" << std::endl;
+						}
+					}
+				break;
 				default:
 					break;
 			}

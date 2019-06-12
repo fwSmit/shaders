@@ -5,6 +5,7 @@ precision mediump float;
 uniform sampler2D texture;
 uniform float time;
 uniform vec2 u_resolution;
+uniform sampler2D visible;
 
 void main()
 {
@@ -12,8 +13,13 @@ void main()
 	vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
 
 	// multiply it by the color
-	float mult = abs(sin(time));
-	// gl_FragColor = abs(sin(time)) * gl_Color * pixel;
+	float mult;
 	vec2 st = gl_FragCoord.xy/u_resolution;
-	gl_FragColor = vec4(st.x,st.y,0.0,noise1(10.));
+	if(mod(floor(gl_FragCoord.x), 30) == 0){
+		mult = 1.0;
+	}
+	else{
+		mult = 1.0;
+	}
+	gl_FragColor = vec4(1.0, 0.0, 0.0, mult);
 }
